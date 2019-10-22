@@ -1,25 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import shortid from 'shortid'
+
+import Form from './components/Form'
+import ClocksView from './components/ClocksView'
+
+
+import Clocks from './models/Clocks'
 
 function App() {
+
+  const [clocksList,setClocksList] = useState([new Clocks(shortid.generate(),'test',3)])
+
+  const addClocks = (name,UTC) => {
+    setClocksList(prevClocks => [...prevClocks,new Clocks(shortid.generate(),name,parseInt(UTC))])
+  }
+
+  const removeClocks = id => {
+    setClocksList(prevClocks => prevClocks.filter(o => o.id !== id))
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Form add={addClocks}/>
+      <div className="list">
+        {clocksList.map(clocks => <ClocksView {...clocks} key={clocks.id} remove={removeClocks}/>)}
+      </div>
+    </>
   );
 }
 
