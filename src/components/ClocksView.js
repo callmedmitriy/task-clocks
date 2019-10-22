@@ -23,9 +23,15 @@ export default class ClocksView extends React.Component {
   tick() {
     let date = new Date()
     let hours = parseInt(date.getUTCHours() + this.props.zone) > 23 ? 24 - parseInt(date.getUTCHours() + this.props.zone) : parseInt(date.getUTCHours() + this.props.zone)
+    hours = hours < 10 ? '0'+hours : hours
+    let minutes = date.getMinutes() < 10 ? '0'+date.getMinutes() : date.getMinutes();
+    let seconds = date.getSeconds() < 10 ? '0'+date.getSeconds() : date.getSeconds();
+
+
     this.setState({
-      date: hours+':'+date.getMinutes()+':'+date.getSeconds()
+      date: hours+':'+minutes+':'+seconds
     })
+    
   }
 
   render() {
